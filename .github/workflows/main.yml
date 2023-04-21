@@ -28,4 +28,4 @@ jobs:
 
       - name: Upload build to S3 bucket
         run: |
-          aws s3 cp https://github.com/moneparashar/test-s3-deployment.git s3://vivally-testpreprod-artifacts/API-Artifacts/build --recursive
+          aws s3 cp https://github.com/moneparashar/test-s3-deployment.git s3://cf-templates-1krz2x79gf5ml-us-east-1/build/ --recursive
