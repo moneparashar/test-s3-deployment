@@ -1,0 +1,17 @@
+{
+    "folder":{
+        "input":"data",
+        "output":"output"
+    },
+    "file":{
+        "input":"users.csv",
+        "output":"queries20Apr.txt"
+    },
+    "start":{
+        "userId":361,
+        "screeningId":367,
+        "screeningGuid":"A148144B-0F47-4714-96F0-B125F7C82344",
+        "deviceConfigGuid":"1D7BAE72-56A5-4733-ACBC-62B7BF90F335",
+        "deviceConfigurationID":"3FA85F64-5717-4562-B3FC-2C963F66A335"
+    }
+}
