@@ -1,32 +1,19 @@
-name: Upload Build to S3
+name: upload artifacts from github to s3
 
 on:
   push:
     branches:
-      - main
+    - main
 
 jobs:
-  build-and-upload:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install awscli -y
-
-      - name: Build and zip files
-        run: |
-          # Replace with your build commands
-          npm run build
-          zip -r build.zip build
-
-      - name: Upload to S3
-        run: |
-          aws s3 cp build.zip s3://cf-templates-1krz2x79gf5ml-us-east-1/build/
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - uses: actions/checkout@master
+    - uses: jakejarvis/s3-sync-action@master
+      with: 
+        args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
