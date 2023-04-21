@@ -22,7 +22,7 @@ jobs:
         run: |
           # Replace with your build commands
           npm run build
-          zip -r api-2.0.0.75.zip build
+          zip -r build.zip build
 
       - name: Upload to S3
         run: |
