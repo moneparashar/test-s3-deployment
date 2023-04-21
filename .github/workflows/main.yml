@@ -1,4 +1,4 @@
-name: Upload Build to S3 Bucket
+name: Upload Build to S3
 
 on:
   push:
@@ -6,26 +6,27 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-upload:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
       - name: Install AWS CLI
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-pip
-          pip3 install awscli --upgrade --user
+          sudo apt-get install awscli -y
 
-      - name: Upload build to S3 bucket
+      - name: Build and zip files
         run: |
-          aws s3 cp https://github.com/moneparashar/test-s3-deployment.git s3://cf-templates-1krz2x79gf5ml-us-east-1/build/ --recursive
+          # Replace with your build commands
+          npm run build
+          zip -r api-2.0.0.75.zip build
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp build.zip s3://cf-templates-1krz2x79gf5ml-us-east-1/build/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
