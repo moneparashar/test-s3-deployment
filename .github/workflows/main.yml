@@ -19,7 +19,7 @@ jobs:
           echo "::set-output name=filename::$latest_file"
           #aws s3 cp ${{ steps.fetch_zip.outputs.filename }} s3://${AWS_S3_BUCKET}/ --acl public-read --exclude '.git*/*'
           #aws s3 cp ${LATEST_FILE} s3://${AWS_S3_BUCKET}/ --acl public-read --exclude '.git*/*'
-          aws s3 cp ${{ steps.find_zip.outputs.filename }} s3://${AWS_S3_BUCKET}/
+          aws s3 cp ${{ steps.find_zip.outputs.filename }} s3://${AWS_S3_BUCKET}/ --acl public-read --exclude '.git*/*'
 
       env:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
