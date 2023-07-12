@@ -24,12 +24,12 @@ jobs:
       - name: Find today's zip file
         id: find_zip
         run: |
-          today=$(date +"%Y-%m-%d")
-          latest_file=$(ls -t *.zip | grep $today | head -n1)
+          latest_file=$(git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print $NF}')
+          echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
 
       - name: Upload to S3
         run: |
-          aws s3 cp api-2.0.0.95.zip ${AWS_S3_BUCKET}
+          aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
