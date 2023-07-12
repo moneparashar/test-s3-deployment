@@ -19,21 +19,24 @@ jobs:
           python-version: '3.9'
 
       - name: Install AWS CLI
-        run: pip install --upgrade awscli
-
-      - name: Fetch latest commit SHA
-        id: latest_commit
-        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
-
-      - name: Fetch latest zip file
-        id: latest_zip
         run: |
-          git archive ${{ steps.latest_commit.outputs.sha }} --format=zip --output=latest.zip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+          aws --version
 
-      - name: Upload latest build to S3
+      - name: Configure AWS credentials
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set AWS-S3-BUCKET ${{ secrets.AWS_S3_BUCKET }}
+		      aws configure set AWS-S3-BUCKET ${{ secrets.AWS_S3_BUCKET }}
           aws configure set default.region us-east-1
-          aws s3 cp latest.zip s3://${AWS-S3-BUCKET}/
+
+      - name: Fetch latest zip file
+        run: |
+          latest_file=$(ls -t *.zip | head -n1)
+          echo "::set-output name=filename::$latest_file"
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp ${{ steps.fetch_zip.outputs.filename }} s3://${AWS-S3-BUCKET}/
