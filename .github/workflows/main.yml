@@ -20,14 +20,11 @@ jobs:
           unzip awscliv2.zip
           sudo ./aws/install
 
-      - name: Configure AWS credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-		  aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
-          aws configure set default.region us-east-1
-
       - name: Upload latest build to S3
         run: |
+		      aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+		      aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
+          aws configure set default.region us-east-1
           LATEST_FILE=$(ls -t test-s3-deployment/*.zip | head -1)
           aws s3 cp $LATEST_FILE s3://${AWS_S3_BUCKET}/
