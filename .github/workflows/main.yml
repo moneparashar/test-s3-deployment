@@ -34,5 +34,5 @@ jobs:
         run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
         run: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
-        run: aws configure set default.region us-east-1
+        # run: aws configure set default.region us-east-1
 		    run: aws s3 cp latest.zip s3://$AWS_S3_BUCKET/
