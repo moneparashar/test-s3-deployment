@@ -15,7 +15,8 @@ jobs:
         #args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
         run:  |
           #LATEST_FILE=$(ls -t test-s3-deployment/*.zip | head -n1)
-          latest_file=$(ls -t *.zip | head -n1)
+          #latest_file=$(ls -t *.zip | head -n 1)
+          latest_file=$(ls -Art *.zip | tail -n 1)
           echo "::set-output name=filename::$latest_file"
           #aws s3 cp ${{ steps.fetch_zip.outputs.filename }} s3://${AWS_S3_BUCKET}/ --acl public-read --exclude '.git*/*'
           #aws s3 cp ${LATEST_FILE} s3://${AWS_S3_BUCKET}/ --acl public-read --exclude '.git*/*'
