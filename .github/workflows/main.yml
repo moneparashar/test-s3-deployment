@@ -1,31 +1,32 @@
-name: Upload Build to S3
-
-on:
-  push:
-    branches:
-      - main  # Replace with the branch you want to trigger the upload
-
 jobs:
   upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9  # Replace with your desired Python version
+          python-version: '3.9'
 
       - name: Install dependencies
         run: pip install awscli
 
-      - name: Upload latest build to S3
+      - name: Fetch latest commit SHA
+        id: latest_commit
+        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
+
+      - name: Fetch latest zip file
+        id: latest_zip
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
-          aws configure set default.region us-east-1
-          # LATEST_FILE=$(ls -t test-s3-deployment/*.zip | head -n1)
-          aws s3 cp test-s3-deployment/api-2.0.0.94.zip s3://$AWS_S3_BUCKET/
+          git archive ${{ steps.latest_commit.outputs.sha }} --format=zip --output=latest.zip
+
+      - name: Upload to S3
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_NEW }}
+        run: aws s3 cp latest.zip s3://$AWS_S3_BUCKET/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
