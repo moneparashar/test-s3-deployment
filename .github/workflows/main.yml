@@ -29,7 +29,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp api-2.0.0.95.zip s3://cf-templates-1krz2x79gf5ml-us-east-1/build/
+          aws s3 cp api-2.0.0.95.zip ${AWS_S3_BUCKET}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
