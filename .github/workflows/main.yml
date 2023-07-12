@@ -12,10 +12,11 @@ jobs:
     - uses: actions/checkout@master
     - uses: jakejarvis/s3-sync-action@master
       with: 
-        #args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
         run:  |
-          latest_file=$(ls -t *.zip | head -n1)
-          aws s3 cp ${latest_file} s3://${AWS_S3_BUCKET}/ --acl public-read
+          today=$(date +"%Y-%m-%d")
+          latest_file=$(ls -t *.zip | grep $today | head -n1)
+          echo "::set-output name=filename::$latest_file"
+          aws s3 cp ${{ steps.find_zip.outputs.filename }} s3://${AWS_S3_BUCKET}/
 
       env:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
