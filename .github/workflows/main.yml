@@ -36,6 +36,4 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set AWS-S3-BUCKET ${{ secrets.AWS_S3_BUCKET }}
           aws configure set default.region us-east-1
-          LATEST_FILE=$(ls -t test-s3-deployment/*.zip | head -1)
-          aws s3 cp $LATEST_FILE s3://${AWS_S3_BUCKET}/
-          #aws s3 cp latest.zip s3://${AWS-S3-BUCKET}/
+          aws s3 cp latest.zip s3://${AWS-S3-BUCKET}/
