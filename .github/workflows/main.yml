@@ -31,9 +31,8 @@ jobs:
           git archive ${{ steps.latest_commit.outputs.sha }} --format=zip --output=latest.zip
 
       - name: Upload latest build to S3
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
-          aws configure set default.region us-east-1
-		      aws s3 cp latest.zip s3://$AWS_S3_BUCKET/
+        run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        run: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: aws configure set AWS_S3_BUCKET ${{ secrets.AWS_S3_BUCKET_NEW }}
+        run: aws configure set default.region us-east-1
+		    run: aws s3 cp latest.zip s3://$AWS_S3_BUCKET/
