@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Get the latest zip file in the repository
                     // def latestZipFile = sh(returnStdout: true, script: 'git ls-files -t "*.zip" | head -n1').trim()
-                    def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print \$NF}'").trim()
+                    def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2,3 | awk 'NR==1{print \$NF}'").trim()
                     // def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print $NF}'").trim()
 
                     // Install AWS CLI if not already installed

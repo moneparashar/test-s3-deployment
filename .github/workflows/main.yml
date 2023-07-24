@@ -24,7 +24,7 @@ jobs:
       - name: Find today's zip file
         id: find_zip
         run: |
-          latest_file=$(git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print $NF}')
+          latest_file=$(git ls-files --full-name '*.zip' | sort -rk2,3 | awk 'NR==1{print $NF}')
           echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
 
       - name: Upload to S3
