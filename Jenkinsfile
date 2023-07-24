@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        S3_BUCKET = 'cf-templates-1krz2x79gf5ml-us-east-1/build/'
+        S3_BUCKET = 'vivally-testpreprod-artifacts/API-Artifacts/build/'
         GITHUB_REPO_URL = 'https://github.com/moneparashar/test-s3-deployment.git'
     }
 
@@ -21,8 +21,9 @@ pipeline {
                 script {
                     // Get the latest zip file in the repository
                     // def latestZipFile = sh(returnStdout: true, script: 'git ls-files -t "*.zip" | head -n1').trim()
-                    def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print \$NF}'").trim()
-                    
+                    // def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print \$NF}'").trim()
+                    def latestZipFile = sh(returnStdout: true, script: "git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print $NF}'").trim()
+
                     // Install AWS CLI if not already installed
                     // sh 'apt-get update && apt-get install -y awscli'
                     
