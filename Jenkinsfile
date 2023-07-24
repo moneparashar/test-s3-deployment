@@ -23,14 +23,14 @@ pipeline {
                     def latestZipFile = sh(returnStdout: true, script: 'git ls-files -t "*.zip" | head -n1').trim()
                     
                     // Install AWS CLI if not already installed
-                    sh 'sudo apt-get update && apt-get install -y awscli'
+                    sh 'apt-get update && apt-get install -y awscli'
                     
                     // Authenticate AWS CLI
                     sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
                     sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
                     
                     // Copy the latest zip file to S3 bucket
-                    sh "aws s3 cp $latestZipFile s3://$S3_BUCKET/"
+                    sh "aws s3 cp $latestZipFile s3://$S3_BUCKET"
                 }
             }
         }
