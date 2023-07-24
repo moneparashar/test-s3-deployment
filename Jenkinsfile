@@ -19,7 +19,7 @@ pipeline {
         stage('Copy to S3') {
             steps {
                 // Get the latest zip file in the repository
-                def latestZipFile = sh(returnStdout: true, script: 'ls -t *.zip | head -n1').trim()
+                def latestZipFile = $(git ls-files --full-name '*.zip' | sort -rk2 | awk 'NR==1{print $NF}')
                 
                 // Install AWS CLI if not already installed
                 sh 'apt-get update && apt-get install -y awscli'
