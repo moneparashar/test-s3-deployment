@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AKIAT3UJAYSIC3DFPCHT')
-        AWS_SECRET_ACCESS_KEY = credentials('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')
+        AWS_ACCESS_KEY_ID = ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         S3_BUCKET = 'cf-templates-1krz2x79gf5ml-us-east-1/build/'
         GITHUB_REPO_URL = 'https://github.com/moneparashar/test-s3-deployment.git'
     }
