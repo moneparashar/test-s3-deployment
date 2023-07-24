@@ -23,7 +23,7 @@ pipeline {
                     def latestZipFile = sh(returnStdout: true, script: 'git ls-files -t "*.zip" | head -n1').trim()
                     
                     // Install AWS CLI if not already installed
-                    sh 'apt-get update && apt-get install -y awscli'
+                    sh 'sudo apt-get update && apt-get install -y awscli'
                     
                     // Authenticate AWS CLI
                     sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
