@@ -44,15 +44,16 @@ pipeline {
 					// Wait for 3 seconds before refreshing the instances
 					sleep 3
 
+                    // Authenticate AWS CLI
+                    sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
+                    sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
+                    // sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
+
 					// Refresh the instances in the first autoscaling group
-					withAWS(region: AWS_REGION) {
-						sh "aws autoscaling create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_1} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
-					}
+					sh "aws autoscaling start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_1} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
 
 					// Refresh the instances in the second autoscaling group
-					withAWS(region: AWS_REGION) {
-						sh "aws autoscaling create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_2} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
-					}
+					sh "aws autoscaling start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_2} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
 				}	
             }
         }
