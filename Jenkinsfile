@@ -46,12 +46,12 @@ pipeline {
 
 					// Refresh the instances in the first autoscaling group
 					withAWS(region: AWS_REGION) {
-						sh "aws autoscalingplans create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_1} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
+						sh "aws autoscaling create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_1} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
 					}
 
 					// Refresh the instances in the second autoscaling group
 					withAWS(region: AWS_REGION) {
-						sh "aws autoscalingplans create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_2} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
+						sh "aws autoscaling create-or-update-scaling-plan --scaling-plan-name ${AUTOSCALING_GROUP_2} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
 					}
 				}	
             }
