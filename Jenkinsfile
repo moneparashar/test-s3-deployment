@@ -41,7 +41,6 @@ pipeline {
         }
 		stage('Instance Refresh') {
             steps {
-				script {
 					// Wait for 3 seconds before refreshing the instances
 					sleep 3
 
@@ -57,7 +56,6 @@ pipeline {
 				}	
             }
         }
-    }
 
     post {
         success {
