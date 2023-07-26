@@ -50,10 +50,10 @@ pipeline {
                     sh 'aws configure set aws_region $AWS_REGION'
 
 					// Refresh the instances in the first autoscaling group
-					sh "aws autoscaling start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_1} --region ${AWS_REGION} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
+					sh "aws autoscalingplans start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_1} --preferences MinHealthyPercentage=100,InstanceWarmup=300,SkipMatching=False"
 
 					// Refresh the instances in the second autoscaling group
-					sh "aws autoscaling start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_2} --region ${AWS_REGION} --preferences 'MinHealthyPercentage=100, InstanceWarmup=300, SkipMatching=False'"
+					sh "aws autoscalingplans start-instance-refresh --auto-scaling-group-name ${AUTOSCALING_GROUP_2} --preferences MinHealthyPercentage=100,InstanceWarmup=300,SkipMatching=False"
 				}	
             }
         }
