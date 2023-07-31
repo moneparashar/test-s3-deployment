@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        S3_BUCKET = 'vivally-testpreprod-artifacts/API-Artifacts/build/'
+        S3_BUCKET = 'test-cicd-vivally/build/'
         GITHUB_REPO_URL = 'https://github.com/moneparashar/test-s3-deployment.git'
     }
 
