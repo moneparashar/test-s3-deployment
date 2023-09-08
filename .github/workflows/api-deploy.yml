@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'api-artifacts/**' # Trigger the workflow only if changes are made in the 'worker-artifacts' folder
 
 jobs:
   upload:
