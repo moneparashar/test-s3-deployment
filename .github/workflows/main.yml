@@ -24,11 +24,12 @@ jobs:
       - name: Determine build type
         id: find_build_type
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q 'api-artifacts'; then
+          if git diff --name-only origin/main..$GITHUB_SHA | grep -q 'api-artifacts'; then
             echo "BUILD_TYPE=api" >> $GITHUB_ENV
-          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q 'worker-artifacts'; then
+          elif git diff --name-only origin/main..$GITHUB_SHA | grep -q 'worker-artifacts'; then
             echo "BUILD_TYPE=worker" >> $GITHUB_ENV
           fi
+
         continue-on-error: true
 
       - name: Find today's zip file
