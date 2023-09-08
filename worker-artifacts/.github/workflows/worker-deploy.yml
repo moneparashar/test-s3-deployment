@@ -1,0 +1,36 @@
+name: Upload to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install AWS CLI
+        run: pip install --upgrade awscli
+
+      - name: Find today's zip file
+        id: find_zip
+        run: |
+          latest_file=$(git ls-files --full-name 'worker-artifacts/*.zip' | sort -rk2,3 | awk 'NR==1{print $NF}')
+          echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET_WORKER}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_S3_BUCKET_WORKER: ${{ secrets.AWS_S3_BUCKET_WORKER }}
