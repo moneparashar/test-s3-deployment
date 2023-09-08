@@ -29,9 +29,9 @@ jobs:
 
       - name: Upload to S3
         run: |
-          if [[ $latest_file == *"api"* ]]; then
+          if [[ $LATEST_FILE == *"api"* ]]; then
             aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET}
-          elif [[ $latest_file == *"hangfire"* ]]; then
+          elif [[ $LATEST_FILE == *"hangfire"* ]]; then
             aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET_WORKER}
           fi
         env:
