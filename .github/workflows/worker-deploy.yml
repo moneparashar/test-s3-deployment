@@ -41,7 +41,8 @@ jobs:
           aws ssm get-parameter --name DOTNET_ZIP_WORKER --query "Parameter.Value"
 
       - name: Refresh Auto Scaling Group
-        run: aws autoscaling start-instance-refresh --auto-scaling-group-name Worker-Scaling-Group
+        run: |
+          aws autoscaling start-instance-refresh --auto-scaling-group-name Worker-Scaling-Group
 		
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
