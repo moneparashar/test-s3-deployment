@@ -29,12 +29,10 @@ jobs:
           latest_file=$(git ls-files --full-name 'worker-artifacts/*.zip' | sort -rk2,3 | awk 'NR==1{print $NF}')
           echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
 
-      - name: Upload to S3
+      - name: Upload to S3 and wait 10 sec
         run: |
           aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET_WORKER}
-      - name: Wait for 10 sec		  
-		    # Wait for 10 seconds
-        run: sleep 10
+          sleep 10
 	    - name: Display SSM Parameter
         run: |
           aws ssm get-parameter --name DOTNET_ZIP_WORKER --query "Parameter.Value"
