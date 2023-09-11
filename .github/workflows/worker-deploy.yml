@@ -42,7 +42,6 @@ jobs:
 
       - name: Refresh Auto Scaling Group
         run: |
-          # Use the AWS CLI to trigger an instance refresh for your Auto Scaling group
           aws autoscaling start-instance-refresh --auto-scaling-group-name Worker-Scaling-Group
 		
     env:
