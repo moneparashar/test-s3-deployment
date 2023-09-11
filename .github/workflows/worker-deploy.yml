@@ -32,17 +32,20 @@ jobs:
       - name: Upload to S3
         run: |
           aws s3 cp $LATEST_FILE ${AWS_S3_BUCKET_WORKER}
+
       - name: sleep 10 sec
         run: sleep 10
-	    - name: Display SSM Parameter
+
+      - name: Display SSM Parameter
         run: |
           aws ssm get-parameter --name DOTNET_ZIP_WORKER --query "Parameter.Value"
+
       - name: Refresh Auto Scaling Group
         run: |
           # Use the AWS CLI to trigger an instance refresh for your Auto Scaling group
           aws autoscaling start-instance-refresh --auto-scaling-group-name Worker-Scaling-Group
 		
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_S3_BUCKET_WORKER: ${{ secrets.AWS_S3_BUCKET_WORKER }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_S3_BUCKET_WORKER: ${{ secrets.AWS_S3_BUCKET_WORKER }}
